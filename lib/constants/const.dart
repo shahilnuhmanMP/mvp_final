@@ -14,3 +14,7 @@ final kNormalFont = TextStyle(
   // color: Colors.grey,
   fontSize: 10,
 );
+
+final appbarFont = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+final kheading2font =
+    TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500);
