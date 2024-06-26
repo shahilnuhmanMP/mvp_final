@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:mvp/constants/const.dart';
 import 'package:mvp/screens/notifications/notifications_screen.dart';
+import 'package:mvp/screens/projects/projects_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,33 +23,37 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Color.fromRGBO(228, 228, 228, 1),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(255, 255, 255, 1),
         automaticallyImplyLeading: false,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Good Morning, Kylie!',
-              style:
-                  TextStyle(fontSize: 13, color: Color.fromRGBO(87, 87, 87, 1)),
-            ),
-            Text(
-              'Let\’s Start your task',
-              style: appbarFont,
-            ),
-          ],
+        title: Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Good Morning, Kylie!',
+                style: TextStyle(
+                    fontSize: 13, color: Color.fromRGBO(87, 87, 87, 1)),
+              ),
+              Text(
+                'Let\’s Start your task',
+                style: appbarFont,
+              ),
+            ],
+          ),
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 16, right: 6),
             child: CircleAvatar(
-              backgroundColor: Color.fromARGB(255, 238, 232, 232),
+              backgroundColor: const Color.fromARGB(248, 248, 248, 232),
               child: IconButton(
                   onPressed: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return NotificationsScreen();
+                      return const NotificationsScreen();
                     }));
                   },
                   icon: const Icon(Icons.notifications_none_outlined)),
@@ -58,13 +63,14 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       body: Column(
         children: [
+          const CustomSearchBar(),
           TabBar(
             unselectedLabelColor: Colors.grey,
             indicatorColor: Colors.black,
             labelColor: Colors.black,
             controller: _tabController,
             labelStyle: const TextStyle(fontSize: 16),
-            indicator: BoxDecoration(
+            indicator: const BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
               color: Colors.black,
@@ -84,11 +90,15 @@ class _HomeScreenState extends State<HomeScreen>
               controller: _tabController,
               children: <Widget>[
                 //today tab
-                Padding(
-                  padding: const EdgeInsets.all(12),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(235, 233, 233, 1),
+                  ),
+                  padding: EdgeInsets.all(12),
                   child: ListView(
                     children: [
                       Card(
+                        color: Color.fromRGBO(255, 255, 255, 1),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
@@ -101,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     color: Color.fromARGB(235, 212, 212, 210),
                                     borderRadius: BorderRadius.circular(12)),
                                 //backgroundColor: Colors.grey,
-                                child: Text(
+                                child: const Text(
                                   'Ui Ux design',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -119,12 +129,12 @@ class _HomeScreenState extends State<HomeScreen>
                                   Icon(Icons.done_outlined)
                                 ],
                               ),
-                              Text(
+                              const Text(
                                 'Redesign fashion app for up dribble',
                                 style: TextStyle(fontSize: 12),
                               ),
                               Divider(),
-                              Row(
+                              const Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
@@ -138,19 +148,20 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       kHeight10,
                       Card(
+                        color: Color.fromRGBO(255, 255, 255, 1),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                margin: EdgeInsets.all(8),
+                                margin: const EdgeInsets.all(8),
                                 padding: EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                     color: Color.fromARGB(235, 212, 212, 210),
                                     borderRadius: BorderRadius.circular(12)),
                                 //backgroundColor: Colors.grey,
-                                child: Text(
+                                child: const Text(
                                   'Ui Ux design',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -189,11 +200,13 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ),
                 // history tab
-                Padding(
-                  padding: const EdgeInsets.all(12),
+                Container(
+                  padding: EdgeInsets.all(12),
+                  color: Color.fromRGBO(235, 233, 233, 1),
                   child: ListView(
                     children: [
                       Card(
+                        color: Color.fromRGBO(255, 255, 255, 1),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
@@ -244,6 +257,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                       kHeight10,
                       Card(
+                        color: Color.fromRGBO(255, 255, 255, 1),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
@@ -259,6 +273,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 child: Text(
                                   'Ui Ux design',
                                   style: TextStyle(
+                                      fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500,
                                       fontSize: 12),
                                 ),

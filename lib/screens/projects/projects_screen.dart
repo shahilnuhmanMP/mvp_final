@@ -37,9 +37,7 @@ class ProjectsScreen extends StatelessWidget {
         body: ListView(
           children: [
 //Searchbar
-            Container(
-              child: Text('search'),
-            ),
+            CustomSearchBar(),
 //cards
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -491,6 +489,42 @@ class ProjectsScreen extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CustomSearchBar extends StatelessWidget {
+  const CustomSearchBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(248, 248, 248, 1), // background color
+        borderRadius: BorderRadius.circular(15.0), // rounded corners
+      
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
+          SizedBox(width: 8.0),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search your task',
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

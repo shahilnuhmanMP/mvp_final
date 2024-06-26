@@ -32,15 +32,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               kHeight30,
-              Text(
+              const Text(
                 'Welcome back',
-                style: kHeadingFont,
+                style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                    color: Color.fromRGBO(0, 0, 0, 1)),
               ),
               Text('Please Enter your email and password to login',
                   style: kNormalFont),
               kHeight10,
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Form(
                   //key: _formKey,
                   child: Column(
@@ -49,30 +52,36 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         //controller: _emailController,
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                          hintStyle: const TextStyle(color: Colors.black),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 3),
                           labelText: 'Email address',
-                          labelStyle: TextStyle(fontSize: 14),
+                          labelStyle: const TextStyle(fontSize: 14),
                           border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  width: 1,
+                                  color: Color.fromRGBO(
+                                    222,
+                                    222,
+                                    222,
+                                    1,
+                                  )),
                               borderRadius: BorderRadius.circular(10)),
                         ),
-                        // validator: (value) {
-                        //   if (value.isEmpty) {
-                        //     return 'Please enter your email';
-                        //   }
-                        //   return null;
-                        // },
                       ),
                       kHeight30,
                       TextFormField(
                         // controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                          hintStyle: const TextStyle(color: Colors.black),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 3),
                           labelText: 'Password',
-                          labelStyle: TextStyle(fontSize: 14),
+                          labelStyle: const TextStyle(fontSize: 14),
                           border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(222, 222, 222, 1)),
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         // validator: (value) {
@@ -95,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return DashboardScreen();
+                              return const DashboardScreen();
                             },
                           ));
                           // if (_formKey.currentState.validate()) {
@@ -106,9 +115,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           //   // Example: You can send this data to an authentication service
                           // }
                         },
-                        child: Text(
+                        child: const Text(
                           'Login',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],

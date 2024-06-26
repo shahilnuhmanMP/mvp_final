@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mvp/constants/const.dart';
 import 'package:mvp/screens/accounts/accounts_screen.dart';
-import 'package:mvp/screens/homescreen.dart';
+import 'package:mvp/screens/home/homescreen.dart';
+import 'package:mvp/screens/home/widgets/new_task_created.dart';
 import 'package:mvp/screens/projects/projects_screen.dart';
 import 'package:mvp/screens/timeline/timeline_screen.dart';
 
@@ -56,21 +57,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
           selectedItemColor: Colors.black,
           selectedFontSize: 12,
           type: BottomNavigationBarType.fixed,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Image.asset('assets/icons/home-2.png'),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.folder_outlined),
+              icon: Image.asset('assets/icons/folder.png'),
               label: "Projects",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month),
+              icon: Image.asset('assets/icons/calendar.png'),
               label: "Timeline",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
+              icon: Image.asset('assets/icons/profile-circle.png'),
               label: "Account",
             ),
           ],
@@ -128,12 +129,21 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Align(
-                alignment: Alignment.topRight,
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey[200],
+                alignment: Alignment.topLeft,
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+
+                    border: Border.all(),
+                    //borderRadius: BorderRadius.circular(10),
+                  ),
                   child: IconButton(
+                    iconSize: 14,
                     icon: Icon(Icons.close, color: Colors.black),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -141,36 +151,151 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   ),
                 ),
               ),
+              kHeight10,
+              Text(
+                'New Task',
+                style: kHeadingFont,
+              ),
+              kHeight10,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _buildContainer('Yesterday'),
                   _buildContainer('Today'),
                   _buildContainer('Tomorrow'),
+                  Icon(Icons.calendar_month_outlined)
                 ],
               ),
               SizedBox(height: 16.0),
-              TextField(
-                decoration: InputDecoration(labelText: 'Field 1'),
-              ),
+              _buildDropdownField('Project'),
               SizedBox(height: 16.0),
-              TextField(
-                decoration: InputDecoration(labelText: 'Field 2'),
-              ),
+              _buildDropdownField('Task'),
               SizedBox(height: 16.0),
-              TextField(
-                decoration: InputDecoration(labelText: 'Field 3'),
+              Text(
+                'Task Description',
+                style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
-              SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Submit logic here
-                },
-                child: Text('Submit'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 48),
+              SizedBox(height: 8),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.14,
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          // hintText: 'Add description...',
+                        ),
+                      ),
+                    ),
+                    //Icon(Icons.arrow_drop_down),
+                  ],
                 ),
               ),
+              kHeight10,
+              Text('Select hours',
+                  style: TextStyle(fontSize: 12, color: Colors.grey)),
+              kHeight10,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                // width: 120,
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    //color: Colors.red,
+                    borderRadius: BorderRadius.circular(23)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: const Color.fromARGB(255, 185, 185, 185),
+                      radius: 12,
+                      child: Text(
+                        '-',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(
+                      '2',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    CircleAvatar(
+                        backgroundColor: Colors.black,
+                        radius: 12,
+                        child: Text(
+                          '+',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
+              ),
+              kHeight10,
+              Text('Task Points',
+                  style: TextStyle(fontSize: 12, color: Colors.grey)),
+              kHeight10,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 40),
+                // width: 120,
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    //color: Colors.red,
+                    borderRadius: BorderRadius.circular(23)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: const Color.fromARGB(255, 185, 185, 185),
+                      radius: 12,
+                      child: Text(
+                        '-',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(
+                      '2',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    CircleAvatar(
+                        backgroundColor: Colors.black,
+                        radius: 12,
+                        child: Text(
+                          '+',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                ),
+              ),
+              kHeight10,
+              SizedBox(height: 32.0),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => NewTaskCreated()));
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 25),
+                  padding: EdgeInsets.all(5),
+                  child: Center(
+                    child: Text(
+                      'Create',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              )
             ],
           ),
         ),
@@ -183,17 +308,17 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
     return GestureDetector(
       onTap: () => _onContainerTap(text),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
         decoration: BoxDecoration(
           color: isSelected ? Colors.black : Colors.white,
           borderRadius: BorderRadius.circular(30.0),
-          border: Border.all(color: const Color.fromARGB(255, 163, 158, 158)),
+          border: Border.all(color: Color.fromARGB(245, 206, 206, 195)),
         ),
         child: Text(
           text,
           style: TextStyle(
             color: isSelected ? Colors.white : Colors.black,
-            fontSize: 18.0,
+            fontSize: 13.0,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -207,13 +332,14 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 12, color: Colors.grey),
         ),
         SizedBox(height: 8),
         Container(
+          height: MediaQuery.of(context).size.height * 0.04,
           padding: EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
@@ -233,7 +359,6 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
       ],
     );
   }
-
 
   // void _showBottomSheet(BuildContext context) {
   //   showModalBottomSheet(

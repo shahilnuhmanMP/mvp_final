@@ -23,66 +23,107 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              automaticallyImplyLeading: false,
+            ),
             body: Container(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.all(8),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Text(
-          'Kyle Calica',
-          style: kheading2font,
-        ),
-        Text('nathan@mvp-apps.com'),
-        kHeight30,
-        Card(
-          child: Column(
-            children: [
-              ListTile(
-                leading: Icon(Icons.notifications_outlined),
-                title: Text(
-                  'Notifications',
-                  style: TextStyle(fontSize: 13, color: Colors.black),
+              // color: Colors.white,
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.all(8),
+              child: Column(children: [
+                const Text(
+                  'Kyle Calica',
+                  style: TextStyle(fontSize: 16,color: Color.fromRGBO(38, 38, 38, 1)),
                 ),
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.dark_mode),
-                title: Text(
-                  'Dark Mode',
-                  style: TextStyle(fontSize: 13),
+                Text('nathan@mvp-apps.com'),
+                kHeight30,
+                Card(
+                  color: Colors.white,
+                  elevation: 1,
+                  child: Column(
+                    children: [
+                      const ListTile(
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+                        leading: Icon(
+                          Icons.notifications_outlined,
+                          color: Color.fromRGBO(38, 38, 38, 1),
+                        ),
+                        title: Text(
+                          'Notifications',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Color.fromRGBO(87, 87, 87, 1)),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: 0.4,
+                        height: 0.2,
+                      ),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.dark_mode_outlined,
+                          color: Color.fromRGBO(38, 38, 38, 1),
+                        ),
+                        title: const Text(
+                          'Dark Mode',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Color.fromRGBO(87, 87, 87, 1)),
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+                        trailing: CupertinoSwitch(
+                          value: _switchValue,
+                          onChanged: (value) {
+                            setState(() {
+                              _switchValue = value;
+                            });
+                          },
+                        ),
+                      ),
+                      const Divider(
+                        thickness: 0.4,
+                        height: 0.2,
+                      ),
+                      const ListTile(
+                        leading: Icon(
+                          Icons.video_camera_back_outlined,
+                          color: Color.fromRGBO(38, 38, 38, 1),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+                        title: Text(
+                          'Record Time',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Color.fromRGBO(87, 87, 87, 1)),
+                        ),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: const Icon(
+                          Icons.logout_outlined,
+                          color: Color.fromRGBO(38, 38, 38, 1),
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
+                        title: const Text(
+                          'Logout',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Color.fromRGBO(87, 87, 87, 1)),
+                        ),
+                        onTap: () {
+                          _showLogoutDialog(context);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                trailing: CupertinoSwitch(
-                  value: _switchValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _switchValue = value;
-                    });
-                  },
-                ),
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.video_camera_back_outlined),
-                title: Text(
-                  'Record Time',
-                  style: TextStyle(fontSize: 13),
-                ),
-              ),
-              Divider(),
-              ListTile(
-                leading: Icon(Icons.logout_outlined),
-                title: Text(
-                  'Logout',
-                  style: TextStyle(fontSize: 13),
-                ),
-                onTap: () {
-                  _showLogoutDialog(context);
-                },
-              ),
-            ],
-          ),
-        ),
-      ]),
-    )));
+              ]),
+            )));
   }
 
   void _showLogoutDialog(BuildContext context) {
@@ -94,39 +135,39 @@ class _AccountsScreenState extends State<AccountsScreen> {
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   'Logout',
                   style: TextStyle(
                     fontSize: 17.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'Are you sure you want to logout?',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 13.0),
                 ),
-                SizedBox(height: 24.0),
+                const SizedBox(height: 24.0),
                 Column(
                   children: [
                     Container(
                       width: double.infinity,
                       height: 30,
-                      child: Center(
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all()),
+                      child: const Center(
                         child: Text(
                           'Yes',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all()),
                     ),
                     kHeight10,
                     InkWell(
@@ -136,16 +177,16 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       child: Container(
                         width: double.infinity,
                         height: 30,
-                        child: Center(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all()),
+                        child: const Center(
                           child: Text(
                             'No',
                             style: TextStyle(color: Colors.black),
                           ),
                         ),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all()),
                       ),
                     ),
                     kHeight10,
@@ -158,31 +199,4 @@ class _AccountsScreenState extends State<AccountsScreen> {
       },
     );
   }
-
-  // void _showLogoutDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text('Logout'),
-  //         content: Text('Are you sure you want to logout?'),
-  //         actions: [
-  //           TextButton(
-  //             child: Text('No'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: Text('Yes'),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //               // Add your logout logic here
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 }

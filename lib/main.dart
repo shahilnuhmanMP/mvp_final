@@ -12,7 +12,8 @@ class MvpApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: Colors.white),
+      theme: ThemeData(
+          fontFamily: 'Montserrat', scaffoldBackgroundColor: Colors.white),
       home: LoginScreen(),
     );
   }

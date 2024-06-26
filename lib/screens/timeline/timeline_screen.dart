@@ -22,7 +22,7 @@ class TimelineScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.black, width: 2),
                   ),
-                  child: Icon(Icons.arrow_back, color: Colors.black),
+                  child: const Icon(Icons.arrow_back, color: Colors.black),
                 ),
                 onPressed: () {
                   Navigator.pop(context);
@@ -36,38 +36,41 @@ class TimelineScreen extends StatelessWidget {
               ),
             ),
             body: Container(
-                padding: EdgeInsets.all(6),
-                margin: EdgeInsets.all(3),
+                padding: const EdgeInsets.all(6),
+                margin: const EdgeInsets.all(3),
                 child: ListView(children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 14),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 14),
                     child: Text(
                       'May,18',
                       style:
                           TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 14),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 14),
                     child: Text('24,Tuesday',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w500)),
                   ),
                   TaskCard(RandomImages: RandomImages),
+                  kHeight10,
 
                   /// meetings
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        MeetingCard(
-                          priorityText: 'High Priority',
-                        ),
-                        MeetingCard(
-                          priorityText: 'Low Priority',
-                        )
-                      ],
+                  const SizedBox(
+                    height:
+                        200, // Set a height to ensure the cards are properly displayed
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          MeetingCard(priorityText: 'High Priority'),
+                          MeetingCard(priorityText: 'Medium Priority'),
+                          MeetingCard(priorityText: 'Low Priority'),
+
+                          // Add more MeetingCard widgets as needed
+                        ],
+                      ),
                     ),
                   ),
 
@@ -99,16 +102,21 @@ class TaskCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('MVP Mobile App Design', style: kheading2font),
+                  const Text('MVP Mobile App Design',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromRGBO(0, 0, 0, 1))),
                   IconButton(
                       onPressed: () {
                         //
                       },
-                      icon: Icon(Icons.more_horiz_rounded))
+                      icon: const Icon(Icons.more_horiz_rounded))
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Task planner App with clean and modern... ',
                   style: TextStyle(color: Colors.grey),
@@ -116,7 +124,7 @@ class TaskCard extends StatelessWidget {
               ),
               Padding(
                 // margin: EdgeInsets.all(7),
-                padding: EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 16),
                 child: Row(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -125,7 +133,7 @@ class TaskCard extends StatelessWidget {
                       children: [
                         for (int i = 0; i < RandomImages.length; i++)
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 0),
+                            margin: const EdgeInsets.symmetric(vertical: 0),
                             child: Align(
                                 widthFactor: 0.5,
                                 child: CircleAvatar(
@@ -140,7 +148,7 @@ class TaskCard extends StatelessWidget {
                     CircleAvatar(
                       backgroundColor: Colors.grey.shade200,
                       radius: 22,
-                      child: Text('2+'),
+                      child: const Text('2+'),
                     ),
                   ],
                 ),
@@ -180,17 +188,22 @@ class MeetingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Color.fromRGBO(255, 255, 255, 1),
       child: Padding(
-        padding: EdgeInsets.only(left: 6, top: 6, bottom: 6),
+        padding: EdgeInsets.all(8),
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Text(
+                const Text(
                   'Meeting with\n client',
-                  style: kheading2font,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontFamily: 'Poppins',
+                  ),
                 ),
                 SizedBox(
                   width: 20,
@@ -203,19 +216,27 @@ class MeetingCard extends StatelessWidget {
               ],
             ),
             kHeight10,
-            Row(
+            const Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Time',
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Color.fromRGBO(159, 159, 159, 1),
+                    fontFamily: 'Poppins',
+                  ),
                 ),
                 SizedBox(
                   width: 70,
                 ),
                 Text(
                   '11:00Pm',
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Color.fromRGBO(0, 0, 0, 1),
+                    fontFamily: 'Poppins',
+                  ),
                 )
               ],
             ),
@@ -231,37 +252,50 @@ class MeetingCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 3,
                     backgroundColor: Colors.red,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 4,
                   ),
                   Text(
                     priorityText,
-                    style: TextStyle(fontSize: 12),
+                    style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                        fontFamily: 'Poppins',
+                        height: 1.36),
                   )
                 ],
               ),
             ),
+
             kHeight10,
             //Zoom Link
             Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
-                  color: Color.fromRGBO(234, 234, 234, 1)),
+                  color: const Color.fromRGBO(234, 234, 234, 1)),
               padding: EdgeInsets.all(3),
-              child: Row(
+              child: const Row(
                 children: [
                   Text(
                     'www.https://zoom.us/',
-                    style: TextStyle(fontSize: 11),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                      fontFamily: 'Poppins',
+                    ),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  Icon(Icons.copy)
+                  Icon(
+                    Icons.copy,
+                    size: 13,
+                  )
                 ],
               ),
             )
