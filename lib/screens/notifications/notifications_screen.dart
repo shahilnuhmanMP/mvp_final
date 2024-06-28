@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mvp/constants/const.dart';
+import 'package:mvp/provider/theme_provider.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final customTheme = Theme.of(context).extension<CustomTheme>()!;
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
@@ -13,107 +15,134 @@ class NotificationsScreen extends StatelessWidget {
                 icon: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.black, width: 2),
+                    border: Border.all(
+                        color: customTheme.containerBorderColor!, width: 2),
                   ),
-                  child: Icon(Icons.arrow_back, color: Colors.black),
+                  child: const Icon(
+                    Icons.arrow_back,
+                    //color: Colors.black,
+                    size: 16,
+                  ),
                 ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
-              title: Text(
+              title: const Text(
                 'Notification',
-                style: kheading2font,
+                style: appbarFont,
               ),
               centerTitle: true,
             ),
             body: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
               child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return Card(
-                    color: Colors.white,
-                    child: Container(
-                      padding: EdgeInsets.all(12),
-                      margin: EdgeInsets.all(6),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('assets/images/ai.jpeg'),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Araby ai',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromARGB(255, 94, 94, 94)
+                                .withOpacity(0.08), // Shadow color
+                            spreadRadius: 4, // Spread radius
+                            blurRadius: 7, // Blur radius
+                            offset: const Offset(
+                                0, 3), // Offset in x and y direction
                           ),
-                          kHeight10,
-                          Text(
-                            'Task planner App with clean and modern... ',
-                            style: TextStyle(fontSize: 13),
+                        ]),
+                    padding: const EdgeInsets.only(
+                        left: 12, right: 9, bottom: 12, top: 6),
+                    margin: const EdgeInsets.all(6),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 12,
+                              backgroundImage:
+                                  AssetImage('assets/images/ai.jpeg'),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Araby ai',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        const Text(
+                          'Task planner App with clean and modern... ',
+                          style: TextStyle(
+                            fontSize: 11,
+                            // color: Theme.of(context).primaryColor,
                           ),
-                          kHeight10,
-                          Divider(),
-                          kHeight10,
-                          Text(
-                            'Link Preview',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        const Divider(),
+                        const Text(
+                          'Link Preview',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            //color: Theme.of(context).primaryColor,
                           ),
-                          kHeight10,
-                          Text(
-                            'www.update username home and profile, edit password',
-                            style: TextStyle(fontSize: 13),
+                        ),
+                        const Text(
+                          'www.update username home and profile, edit password',
+                          style: TextStyle(
+                            fontSize: 11,
+                            // color: Theme.of(context).primaryColor,
                           ),
-                          kHeight10,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 3,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 4),
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Approve',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
+                        ),
+                        kHeight10,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 4,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: const Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Approve',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
                                 ),
                               ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 4,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 4),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(width: 1),
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Deny',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16),
-                                  ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 6,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 4),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(width: 1),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: const Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Deny',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   );
                 },

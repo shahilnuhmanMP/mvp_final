@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 
-final kHeight10 = SizedBox(
+const kHeight10 = SizedBox(
   height: 10,
 );
-final kHeight30 = SizedBox(
+const kHeight30 = SizedBox(
   height: 30,
 );
 
 //fonts
-final kHeadingFont =
-    TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16);
-final kNormalFont = TextStyle(
+const kHeadingFont = TextStyle(fontWeight: FontWeight.bold, fontSize: 14);
+const kNormalFont = TextStyle(
     // color: Colors.grey,
     fontSize: 12,
     color: Color.fromRGBO(78, 78, 78, 1));
 
-final appbarFont = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
-final kheading2font =
+const appbarFont = TextStyle(fontSize: 16, fontWeight: FontWeight.w700);
+const kheading2font =
     TextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w500);
+//color
+const Color kblack = Colors.black;
+const Color kwhite = Colors.white;
+
+const kdivider = Divider(
+  thickness: 0.3,
+  height: 0.2,
+);

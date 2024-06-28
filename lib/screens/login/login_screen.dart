@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 16,
                     color: Color.fromRGBO(0, 0, 0, 1)),
               ),
-              Text('Please Enter your email and password to login',
+              const Text('Please Enter your email and password to login',
                   style: kNormalFont),
               kHeight10,
               Padding(
@@ -56,7 +56,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 3),
                           labelText: 'Email address',
-                          labelStyle: const TextStyle(fontSize: 14),
+                          labelStyle:
+                              const TextStyle(fontSize: 14, color: kblack),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(222, 222, 222, 1)),
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(222, 222, 222, 1)),
+                              borderRadius: BorderRadius.circular(10)),
                           border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   width: 1,
@@ -66,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     222,
                                     1,
                                   )),
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                       kHeight30,
@@ -78,11 +87,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 3),
                           labelText: 'Password',
-                          labelStyle: const TextStyle(fontSize: 14),
-                          border: OutlineInputBorder(
+                          labelStyle:
+                              const TextStyle(fontSize: 14, color: kblack),
+                          enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   color: Color.fromRGBO(222, 222, 222, 1)),
                               borderRadius: BorderRadius.circular(10)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(222, 222, 222, 1)),
+                              borderRadius: BorderRadius.circular(10)),
+                          border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Color.fromRGBO(222, 222, 222, 1)),
+                              borderRadius: BorderRadius.circular(15)),
                         ),
                         // validator: (value) {
                         //   if (value.isEmpty) {
@@ -97,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: WidgetStatePropertyAll(
                               ContinuousRectangleBorder(
                                   borderRadius:
-                                      BorderRadiusDirectional.circular(16))),
+                                      BorderRadiusDirectional.circular(20))),
                           backgroundColor:
                               WidgetStateProperty.all<Color>(Colors.black),
                         ),

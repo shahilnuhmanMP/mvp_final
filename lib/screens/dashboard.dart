@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mvp/constants/const.dart';
 import 'package:mvp/screens/accounts/accounts_screen.dart';
 import 'package:mvp/screens/home/homescreen.dart';
-import 'package:mvp/screens/home/widgets/new_task_created.dart';
 import 'package:mvp/screens/projects/projects_screen.dart';
 import 'package:mvp/screens/timeline/timeline_screen.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,13 +15,12 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
+
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomeScreen(),
     ProjectsScreen(),
     TimelineScreen(),
-    AccountsScreen()
+    const AccountsScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -34,29 +33,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromARGB(255, 0, 0, 0),
-        shape: CircleBorder(),
-        onPressed: () {
-          _showBottomSheet(context);
-        },
-        child: const Icon(Icons.add, color: Colors.white, size: 25),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          // sets the background color of the `BottomNavigationBar`
-          canvasColor: Colors.white,
-        ), // sets the inactive color of the `BottomNavigationBar`
-        child: BottomNavigationBar(
+      bottomNavigationBar: Stack(clipBehavior: Clip.none, children: [
+        BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          selectedItemColor: Colors.black,
-          selectedFontSize: 12,
+
           type: BottomNavigationBarType.fixed,
+          //
+          unselectedFontSize: 10,
+
           items: [
             BottomNavigationBarItem(
               icon: Image.asset('assets/icons/home-2.png'),
@@ -76,7 +64,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
-      ),
+        Positioned(
+          bottom: 10,
+          left: MediaQuery.of(context).size.width / 2 - 28, // Center the FAB
+          child: FloatingActionButton.small(
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+            shape: const CircleBorder(),
+            onPressed: () {
+              _showBottomSheet(context);
+            },
+            child: const Icon(Icons.add, color: Colors.white, size: 25),
+          ),
+        ),
+      ]),
     ));
   }
 
@@ -87,6 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return DraggableScrollableSheet(
+          initialChildSize: 0.9,
           expand: false,
           builder: (context, scrollController) {
             return BottomSheetContent(scrollController: scrollController);
@@ -100,7 +101,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 class BottomSheetContent extends StatefulWidget {
   final ScrollController scrollController;
 
-  BottomSheetContent({required this.scrollController});
+  const BottomSheetContent({super.key, required this.scrollController});
 
   @override
   _BottomSheetContentState createState() => _BottomSheetContentState();
@@ -108,6 +109,8 @@ class BottomSheetContent extends StatefulWidget {
 
 class _BottomSheetContentState extends State<BottomSheetContent> {
   String selectedContainer = 'Today';
+  bool showCalendar = false;
+  DateTime _selectedDay = DateTime.now();
 
   void _onContainerTap(String container) {
     setState(() {
@@ -118,7 +121,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(20),
@@ -127,7 +130,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
       child: SingleChildScrollView(
         controller: widget.scrollController,
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -144,7 +147,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   ),
                   child: IconButton(
                     iconSize: 14,
-                    icon: Icon(Icons.close, color: Colors.black),
+                    icon: const Icon(Icons.close, color: Colors.black),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -152,7 +155,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 ),
               ),
               kHeight10,
-              Text(
+              const Text(
                 'New Task',
                 style: kHeadingFont,
               ),
@@ -163,57 +166,107 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   _buildContainer('Yesterday'),
                   _buildContainer('Today'),
                   _buildContainer('Tomorrow'),
-                  Icon(Icons.calendar_month_outlined)
+                  IconButton(
+                    icon: const Icon(Icons.calendar_month_outlined),
+                    onPressed: () {
+                      setState(() {
+                        showCalendar =
+                            !showCalendar; // Toggle calendar visibility
+                      });
+                    },
+                  ),
                 ],
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
+              if (showCalendar)
+                Container(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 22,
+                  ),
+                  child: TableCalendar(
+                    selectedDayPredicate: (day) {
+                      return isSameDay(_selectedDay, day);
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        _selectedDay = selectedDay;
+                      });
+                    },
+                    rowHeight: 35,
+                    focusedDay: DateTime.now(),
+                    firstDay: DateTime(2020),
+                    lastDay: DateTime(2050),
+                    calendarFormat: CalendarFormat.month,
+                    headerStyle: const HeaderStyle(
+                      titleTextStyle:
+                          TextStyle(color: Colors.black, fontSize: 20),
+                      formatButtonVisible: false,
+                    ),
+                    daysOfWeekStyle: const DaysOfWeekStyle(
+                      weekdayStyle: TextStyle(color: Colors.black),
+                      weekendStyle: TextStyle(color: Colors.black),
+                    ),
+                    calendarStyle: CalendarStyle(
+                      todayDecoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        shape: BoxShape.circle,
+                      ),
+                      selectedDecoration: const BoxDecoration(
+                        color: Colors.black,
+                        shape: BoxShape.circle,
+                      ),
+                      selectedTextStyle: const TextStyle(color: Colors.white),
+                      defaultTextStyle:
+                          const TextStyle(color: Colors.black, fontSize: 15),
+                      weekendTextStyle: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
               _buildDropdownField('Project'),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               _buildDropdownField('Task'),
-              SizedBox(height: 16.0),
-              Text(
+              const SizedBox(height: 16.0),
+              const Text(
                 'Task Description',
                 style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Container(
                 height: MediaQuery.of(context).size.height * 0.14,
-                padding: EdgeInsets.symmetric(horizontal: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          // hintText: 'Add description...',
-                        ),
-                      ),
-                    ),
-                    //Icon(Icons.arrow_drop_down),
-                  ],
+                child: const TextField(
+                  maxLines: null,
+                  textAlignVertical: TextAlignVertical.top,
+                  decoration: InputDecoration(
+                      hintStyle: TextStyle(fontFamily: 'Poppins', fontSize: 12),
+                      border: InputBorder.none,
+                      hintText: 'Add description...',
+                      contentPadding: EdgeInsets.zero),
                 ),
               ),
               kHeight10,
-              Text('Select hours',
+              const Text('Select hours',
                   style: TextStyle(fontSize: 12, color: Colors.grey)),
               kHeight10,
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 40),
+                margin: const EdgeInsets.symmetric(horizontal: 40),
                 // width: 120,
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     //color: Colors.red,
                     borderRadius: BorderRadius.circular(23)),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 185, 185, 185),
+                      backgroundColor: Color.fromARGB(255, 185, 185, 185),
                       radius: 12,
                       child: Text(
                         '-',
@@ -237,22 +290,23 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 ),
               ),
               kHeight10,
-              Text('Task Points',
+              const Text('Task Points',
                   style: TextStyle(fontSize: 12, color: Colors.grey)),
               kHeight10,
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 40),
+                margin: const EdgeInsets.symmetric(horizontal: 40),
                 // width: 120,
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     //color: Colors.red,
                     borderRadius: BorderRadius.circular(23)),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 185, 185, 185),
+                      backgroundColor: Color.fromARGB(255, 185, 185, 185),
                       radius: 12,
                       child: Text(
                         '-',
@@ -276,24 +330,30 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                 ),
               ),
               kHeight10,
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => NewTaskCreated()));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('New Task Created'),
+                    ),
+                  );
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => NewTaskCreated()));
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 25),
-                  padding: EdgeInsets.all(5),
-                  child: Center(
+                  width: 311,
+                  margin: const EdgeInsets.symmetric(horizontal: 40),
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: const Center(
                     child: Text(
                       'Create',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(8)),
                 ),
               )
             ],
@@ -308,11 +368,11 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
     return GestureDetector(
       onTap: () => _onContainerTap(text),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12.0),
         decoration: BoxDecoration(
           color: isSelected ? Colors.black : Colors.white,
           borderRadius: BorderRadius.circular(30.0),
-          border: Border.all(color: Color.fromARGB(245, 206, 206, 195)),
+          border: Border.all(color: const Color.fromARGB(245, 206, 206, 195)),
         ),
         child: Text(
           text,
@@ -332,17 +392,17 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 12, color: Colors.grey),
+          style: const TextStyle(fontSize: 12, color: Colors.grey),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Container(
           height: MediaQuery.of(context).size.height * 0.04,
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Row(
+          child: const Row(
             children: [
               Expanded(
                 child: TextField(
@@ -352,104 +412,11 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   ),
                 ),
               ),
-              Icon(Icons.arrow_drop_down),
+              Icon(Icons.keyboard_arrow_down_outlined),
             ],
           ),
         ),
       ],
     );
   }
-
-  // void _showBottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true,
-  //     backgroundColor: Colors.transparent,
-  //     builder: (BuildContext context) {
-  //       return DraggableScrollableSheet(
-  //         expand: false,
-  //         builder: (context, scrollController) {
-  //           return Container(
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.vertical(
-  //                 top: Radius.circular(20),
-  //               ),
-  //             ),
-  //             padding: EdgeInsets.all(16.0),
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Align(
-  //                   alignment: Alignment.topLeft,
-  //                   child: IconButton(
-  //                     icon: Icon(Icons.close_rounded),
-  //                     onPressed: () {
-  //                       Navigator.of(context).pop();
-  //                     },
-  //                   ),
-  //                 ),
-  //                 Text(
-  //                   'New Task',
-  //                   style: kHeadingFont,
-  //                 ),
-  //                 Row(
-  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                   children: [
-  //                     Container(
-  //                       padding: EdgeInsets.all(5),
-  //                       child: Text(
-  //                         'Yesterday',
-  //                         style: kheading2font,
-  //                       ),
-  //                       decoration: BoxDecoration(
-  //                           color: Colors.white,
-  //                           border: Border.all(color: Colors.grey),
-  //                           borderRadius: BorderRadius.circular(7)),
-  //                     ),
-  //                     Container(
-  //                       child: Text('Today'),
-  //                       decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(7)),
-  //                     ),
-  //                     Container(
-  //                       child: Text('Tomorrow'),
-  //                       decoration: BoxDecoration(
-  //                           borderRadius: BorderRadius.circular(7)),
-  //                     ),
-  //                     Icon(Icons.calendar_month_outlined)
-  //                   ],
-  //                 ),
-  //                 Text('Project'),
-  //                 TextField(
-  //                   decoration: InputDecoration(labelText: 'Field 1'),
-  //                 ),
-  //                 SizedBox(height: 16.0),
-  //                 Text('Task'),
-  //                 TextField(
-  //                   decoration: InputDecoration(labelText: 'Field 2'),
-  //                 ),
-  //                 SizedBox(height: 16.0),
-  //                 Text('Task Description'),
-  //                 TextField(
-  //                   decoration: InputDecoration(labelText: 'Field 3'),
-  //                 ),
-  //                 SizedBox(height: 32.0),
-  //                 ElevatedButton(
-  //                   onPressed: () {
-  //                     // Submit logic here
-  //                   },
-  //                   child: Text('Submit'),
-  //                   style: ElevatedButton.styleFrom(
-  //                     minimumSize: Size(double.infinity, 48),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 }
